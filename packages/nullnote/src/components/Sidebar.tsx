@@ -10,6 +10,7 @@ interface SidebarProps {
   selectedNote: Note | null;
   searchQuery: string;
   theme: 'light' | 'dark';
+  isOpen: boolean;
   onNotebookSelect: (id: string | null) => void;
   onNoteSelect: (note: Note) => void;
   onSearchChange: (query: string) => void;
@@ -25,6 +26,7 @@ export function Sidebar({
   selectedNote,
   searchQuery,
   theme,
+  isOpen,
   onNotebookSelect,
   onNoteSelect,
   onSearchChange,
@@ -56,9 +58,13 @@ export function Sidebar({
   };
 
   return (
-    <div className="w-80 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col transition-colors">
+    <div className={`
+      w-80 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col transition-all duration-300
+      fixed lg:static inset-y-0 left-0 z-40
+      ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+    `}>
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700 mt-16 lg:mt-0">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">NullNote</h1>
           <button
@@ -216,4 +222,7 @@ export function Sidebar({
     </div>
   );
 }
+
+
+
 
