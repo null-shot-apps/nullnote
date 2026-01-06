@@ -62,28 +62,28 @@ export function Editor({ note, onUpdateNote, onDeleteNote }: EditorProps) {
 
   if (!note) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-center">
-          <svg className="w-16 h-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-900 w-full lg:w-auto">
+        <div className="text-center px-4">
+          <svg className="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <h2 className="text-xl font-medium text-gray-400 dark:text-gray-500 mb-2">No note selected</h2>
-          <p className="text-sm text-gray-400 dark:text-gray-600">Select a note from the sidebar or create a new one</p>
+          <h2 className="text-lg lg:text-xl font-medium text-gray-400 dark:text-gray-500 mb-2">No note selected</h2>
+          <p className="text-sm text-gray-400 dark:text-gray-600">Select a note from the menu or create a new one</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900 transition-colors">
+    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900 transition-colors w-full lg:w-auto">
       {/* Editor Header */}
-      <div className="border-b border-gray-200 dark:border-gray-700 p-4">
-        <div className="flex items-center justify-between mb-4">
+      <div className="border-b border-gray-200 dark:border-gray-700 p-4 pt-20 lg:pt-4">
+        <div className="flex items-center justify-between mb-4 gap-2">
           <input
             type="text"
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            className="flex-1 text-2xl font-semibold bg-transparent border-none outline-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            className="flex-1 text-xl lg:text-2xl font-semibold bg-transparent border-none outline-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             placeholder="Untitled Note"
           />
           <button
@@ -137,23 +137,28 @@ export function Editor({ note, onUpdateNote, onDeleteNote }: EditorProps) {
       </div>
 
       {/* Editor Content */}
-      <div className="flex-1 overflow-y-auto p-8">
+      <div className="flex-1 overflow-y-auto p-4 lg:p-8">
         <textarea
           value={content}
           onChange={(e) => handleContentChange(e.target.value)}
-          className="w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-gray-800 dark:text-gray-200 text-base leading-relaxed font-mono"
+          className="w-full h-full min-h-[300px] lg:min-h-[500px] bg-transparent border-none outline-none resize-none text-gray-800 dark:text-gray-200 text-sm lg:text-base leading-relaxed font-mono"
           placeholder="Start writing..."
         />
       </div>
 
       {/* Footer Info */}
-      <div className="border-t border-gray-200 dark:border-gray-700 px-8 py-3">
-        <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
-          <span>Last edited: {new Date(note.updatedAt).toLocaleString()}</span>
-          <span>{content.split(/\s+/).filter(Boolean).length} words</span>
+      <div className="border-t border-gray-200 dark:border-gray-700 px-4 lg:px-8 py-3">
+        <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500 flex-wrap gap-2">
+          <span className="truncate">Last edited: {new Date(note.updatedAt).toLocaleString()}</span>
+          <span className="whitespace-nowrap">{content.split(/\s+/).filter(Boolean).length} words</span>
         </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
 

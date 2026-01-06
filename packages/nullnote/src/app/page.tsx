@@ -13,6 +13,7 @@ export default function NotebookApp() {
   const [selectedNotebook, setSelectedNotebook] = useState<string | null>(null);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const filteredNotes = notes.filter(note => {
     const matchesNotebook = !selectedNotebook || note.notebookId === selectedNotebook;
@@ -61,9 +62,37 @@ export default function NotebookApp() {
     setNotebooks([...notebooks, newNotebook]);
   };
 
+  const handleNoteSelect = (note: Note) => {
+    setSelectedNote(note);
+    setIsSidebarOpen(false); // Close sidebar on mobile when note is selected
+  };
+
   return (
     <div className={theme === 'dark' ? 'dark' : ''}>
-      <div className="flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <div className="flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors relative">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700"
+          aria-label="Toggle menu"
+        >
+          <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {isSidebarOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+
+        {/* Mobile Overlay */}
+        {isSidebarOpen && (
+          <div
+            className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
         <Sidebar
           notebooks={notebooks}
           notes={filteredNotes}
@@ -71,8 +100,9 @@ export default function NotebookApp() {
           selectedNote={selectedNote}
           searchQuery={searchQuery}
           theme={theme}
+          isOpen={isSidebarOpen}
           onNotebookSelect={setSelectedNotebook}
-          onNoteSelect={setSelectedNote}
+          onNoteSelect={handleNoteSelect}
           onSearchChange={setSearchQuery}
           onThemeToggle={() => setTheme(theme === 'light' ? 'dark' : 'light')}
           onCreateNote={handleCreateNote}
@@ -87,4 +117,6 @@ export default function NotebookApp() {
     </div>
   );
 }
+
+
 
